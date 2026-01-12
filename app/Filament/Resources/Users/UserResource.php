@@ -70,64 +70,64 @@ class UserResource extends Resource
         ];
     }
 
-    // public static function canView(Model $record): bool
-    // {
-    //     $auth = Auth::user();
+    public static function canView(Model $record): bool
+    {
+        $auth = Auth::user();
 
-    //     if (! $auth instanceof AppUser) return false;
+        if (! $auth instanceof AppUser) return false;
 
-    //     if ($auth->isSuperAdmin()) {
-    //         return $auth->canDo('user.view');
-    //     }
+        if ($auth->isSuperAdmin()) {
+            return $auth->canDo('user.view');
+        }
 
-    //     if ($auth->canDo('user.view')) {
-    //         if ($record->isSuperAdmin()) return false;
-    //         return true;
-    //     }
+        if ($auth->canDo('user.view')) {
+            if ($record->isSuperAdmin()) return false;
+            return true;
+        }
 
-    //     return false;
-    // }
+        return false;
+    }
 
-    // public static function canCreate(): bool
-    // {
-    //     $auth = Auth::user();
-    //     return $auth instanceof AppUser && $auth->canDo('user.create');
-    // }
+    public static function canCreate(): bool
+    {
+        $auth = Auth::user();
+        return $auth instanceof AppUser && $auth->canDo('user.create');
+    }
 
-    // public static function canEdit(Model $record): bool
-    // {
-    //     $auth = Auth::user();
+    public static function canEdit(Model $record): bool
+    {
+        $auth = Auth::user();
 
-    //     if (! $auth instanceof AppUser) return false;
-    //     if (! $auth->canDo('user.edit')) return false;
+        if (! $auth instanceof AppUser) return false;
+        if (! $auth->canDo('user.edit')) return false;
 
-    //     if ($auth->isAdmin() && $record->isSuperAdmin()) return false;
+        if ($auth->isAdmin() && $record->isSuperAdmin()) return false;
 
-    //     return true;
-    // }
+        return true;
+    }
 
-    // public static function canDelete(Model $record): bool
-    // {
-    //     $auth = Auth::user();
+    public static function canDelete(Model $record): bool
+    {
+        $auth = Auth::user();
 
-    //     if (! $auth instanceof AppUser) return false;
-    //     if ($auth->id === $record->id) return false;
-    //     if (! $auth->canDo('user.delete')) return false;
+        if (! $auth instanceof AppUser) return false;
+        if ($auth->id === $record->id) return false;
+        if (! $auth->canDo('user.delete')) return false;
 
-    //     if ($auth->isAdmin() && $record->isSuperAdmin()) return false;
+        if ($auth->isAdmin() && $record->isSuperAdmin()) return false;
 
-    //     return true;
-    // }
+        return true;
+    }
 
-    // public static function canDeleteAny(): bool
-    // {
-    //     $auth = Auth::user();
-    //     return $auth instanceof AppUser && $auth->canDo('user.delete');
-    // }
+    public static function canDeleteAny(): bool
+    {
+        $auth = Auth::user();
+        return $auth instanceof AppUser && $auth->canDo('user.delete');
+    }
 
-    // public static function shouldRegisterNavigation(): bool
-    // {
-    //     $auth = Auth::user();
-    //     return $auth instanceof AppUser && $auth->canDo('user.view');
-    // }
+    public static function shouldRegisterNavigation(): bool
+    {
+        $auth = Auth::user();
+        return $auth instanceof AppUser && $auth->canDo('user.view');
+    }
 }

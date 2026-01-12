@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('peminjamans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('perangkat_id')->nullable()->constrained('perangkats')->nullOnDelete();
+            $table->string('pihak_kedua_nama');
             $table->string('nomor_inventaris')->nullable()->index();
             $table->string('nama_barang');
             $table->string('merk')->nullable();
@@ -23,7 +24,7 @@ return new class extends Migration
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_selesai')->nullable();
 
-            $table->enum('status', ['Dipinjam', 'Dikembalikan', 'Terlambat'])->default('Dipinjam');
+            $table->string('status')->default('Menunggu')->index();
             $table->text('catatan')->nullable();
 
             $table->timestamp('reminder_h3_sent_at')->nullable()->index();

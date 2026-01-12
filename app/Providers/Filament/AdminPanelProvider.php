@@ -38,6 +38,7 @@ class AdminPanelProvider extends PanelProvider
       ->globalSearch(false)
       ->brandLogo(null)
       ->brandName('')
+      ->favicon(asset('img/RSU.png'))
       ->colors([
         'primary' => Color::Amber,
       ])

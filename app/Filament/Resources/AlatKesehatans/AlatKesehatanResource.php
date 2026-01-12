@@ -17,6 +17,9 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User as AppUser;
+use Illuminate\Database\Eloquent\Model;
 
 class AlatKesehatanResource extends Resource
 {
@@ -60,4 +63,39 @@ class AlatKesehatanResource extends Resource
       'edit' => EditAlatKesehatan::route('/{record}/edit'),
     ];
   }
+  public static function canAccess(): bool
+    {
+         $user = Auth::user();
+        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+    }
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = Auth::user();
+        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+    }
+    public static function canViewAny(): bool
+    {
+        $user = Auth::user();
+        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+    }
+    public static function canCreate(): bool
+    {
+        $user = Auth::user();
+        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+    }
+    public static function canEdit(Model $record): bool
+    {
+        $user = Auth::user();
+        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+    }
+    public static function canDelete(Model $record): bool
+    {
+        $user = Auth::user();
+        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+    }
+    public static function canDeleteAny(): bool
+    {
+        $user = Auth::user();
+        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+    }
 }

@@ -3,6 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Lokasi;
+use App\Models\Status;
+use App\Models\Jenis;
+use App\Models\Kategori;
+use App\Models\Kondisi;
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -12,12 +18,9 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // Data users yang akan diinput
+        // 1. DATA USER
         $users = [
             [
                 'name' => 'Super Administrator',
@@ -29,8 +32,26 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('123456'),
             ],
             [
+                'name' => 'Azkal Super Admin',
+                'email' => 'askalaskia19@gmail.com',
+                'role' => 'super-admin',
+                'jabatan' => 'Head of Application',
+                'unit' => 'SIRS',
+                'email_verified_at' => Carbon::now(),
+                'password' => Hash::make('123456'),
+            ],
+            [
                 'name' => 'Admin Manager',
                 'email' => 'admin@example.com',
+                'role' => 'admin',
+                'jabatan' => 'Supervisor',
+                'unit' => 'Human Resources',
+                'email_verified_at' => Carbon::now(),
+                'password' => Hash::make('123456'),
+            ],
+            [
+                'name' => 'Azkal Admin',
+                'email' => 'azkalazkiya940@gmail.com',
                 'role' => 'admin',
                 'jabatan' => 'Supervisor',
                 'unit' => 'Human Resources',
@@ -46,10 +67,77 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make('123456'),
             ],
+            [
+                'name' => 'Azkal User',
+                'email' => 'midoria580@gmail.com',
+                'role' => 'user',
+                'jabatan' => 'Staff',
+                'unit' => 'Operational',
+                'email_verified_at' => Carbon::now(),
+                'password' => Hash::make('123456'),
+            ],
         ];
 
         foreach ($users as $user) {
             User::create($user);
+        }
+
+        // 2. DATA LOKASI
+        $lokasis = [
+            ['nama_lokasi' => 'Bangsal Rama'],
+            ['nama_lokasi' => 'Bangsal Shinta'],
+            ['nama_lokasi' => 'Bangsal Bima'],
+            ['nama_lokasi' => 'UGD'],
+            ['nama_lokasi' => 'Rawat Jalan'],
+        ];
+        
+        foreach ($lokasis as $lokasi) {
+            Lokasi::create($lokasi);
+        }
+
+        // 3. DATA STATUS
+        $statuses = [
+            ['nama_status' => 'Aktif'],
+            ['nama_status' => 'Rusak'],
+            ['nama_status' => 'Expired'],
+        ];
+
+        foreach ($statuses as $status) {
+            Status::create($status);
+        }
+
+        $jenis_perangkats = [
+            [
+                'nama_jenis' => 'Kesehatan',
+                'prefix' => 'A',
+                'kode_jenis' => '01'
+            ],
+        ];
+
+        foreach ($jenis_perangkats as $jenis) {
+            Jenis::create($jenis);
+        }
+
+        // 5. DATA KATEGORI
+        $kategoris = [
+            ['nama_kategori' => 'EKG', 'kode_kategori' => '009'],
+            ['nama_kategori' => 'Kursi Roda', 'kode_kategori' => '019'],
+        ];
+
+        foreach ($kategoris as $kategori) {
+            Kategori::create($kategori);
+        }
+
+        // 6. DATA KONDISI
+        $kondisis = [
+            ['nama_kondisi' => 'Baik'],
+            ['nama_kondisi' => 'Buruk'],
+            ['nama_kondisi' => 'Baru'],
+            ['nama_kondisi' => 'Sedang'],
+        ];
+
+        foreach ($kondisis as $kondisi) {
+            Kondisi::create($kondisi);
         }
     }
 }

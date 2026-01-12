@@ -5,7 +5,7 @@ use App\Http\Controllers\PublicPerangkatController;
 use App\Http\Controllers\PublicMaintenanceController;
 
 Route::get('/', function () {
-  return view('welcome');
+  return redirect('/admin');
 });
 
 Route::get('/perangkat/{perangkat}', [PublicPerangkatController::class, 'show'])

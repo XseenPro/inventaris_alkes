@@ -15,13 +15,12 @@ return new class extends Migration
       $table->id();
       $table->foreignId('perangkat_id')->constrained('perangkats')->onDelete('cascade');
       $table->string('nomor_sertifikat')->nullable();
-      $table->string('bulan_order')->nullable();
-      $table->string('nomor_order')->nullable();
       $table->foreignId('lokasi_id')->nullable()->constrained('lokasis')->nullOnDelete();
+      $table->date('tanggal_pelaksanaan')->nullable()->index('tanggal_pelaksanaan');
       $table->date('tanggal_kalibrasi')->nullable()->index('tanggal_kalibrasi');
-      $table->string('metode')->nullable();
-      $table->string('acuan')->nullable();
+      $table->date('tanggal_kalibrasi_ulang')->nullable()->index('tanggal_kalibrasi_ulang');
       $table->string('hasil_kalibrasi')->nullable();
+      $table->string('keterangan')->nullable();
       $table->string('sertifikat_kalibrasi')->nullable();
 
       $table->timestamps();

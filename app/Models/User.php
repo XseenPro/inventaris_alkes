@@ -78,39 +78,39 @@ class User extends Authenticatable
         return in_array($this->role, ['admin', 'super-admin'], true);
     }
 
-    // public static function defaultRolePermissions(): array
-    // {
-    //     return [
-    //         'super-admin' => [
-    //             'dashboard.view',
-    //             'user.manage',
-    //             'resume.manage',
-    //             'peminjaman.manage',
-    //             'perangkat.manage',
-    //             'perangkat.import',
-    //             'perangkat.mutasi',
-    //             'perangkat.jenis.manage',
-    //             'perangkat.status.manage',
-    //             'perangkat.kondisi.manage',
-    //             'perangkat.lokasi.manage',
-    //             'perangkat.kategori.manage',
-    //             'maintenance.manage',
-    //             'penarikan.manage',
-    //         ],
+    public static function defaultRolePermissions(): array
+    {
+        return [
+            'super-admin' => [
+                'dashboard.view',
+                'user.manage',
+                'resume.manage',
+                'peminjaman.manage',
+                'perangkat.manage',
+                'perangkat.import',
+                'perangkat.mutasi',
+                'perangkat.jenis.manage',
+                'perangkat.status.manage',
+                'perangkat.kondisi.manage',
+                'perangkat.lokasi.manage',
+                'perangkat.kategori.manage',
+                'maintenance.manage',
+                'penarikan.manage',
+            ],
 
-    //         'admin' => [
-    //             'dashboard.view',
-    //             'resume.manage',
-    //             'peminjaman.manage',
-    //         ],
+            'admin' => [
+                'dashboard.view',
+                'resume.manage',
+                'peminjaman.manage',
+            ],
 
-    //         'user' => [
-    //             'dashboard.view',
-    //             'peminjaman.view',
-    //             'peminjaman.create',
-    //         ],
-    //     ];
-    // }
+            'user' => [
+                'dashboard.view',
+                'peminjaman.view',
+                'peminjaman.create',
+            ],
+        ];
+    }
 
     public function canDo(string $permission): bool
     {
