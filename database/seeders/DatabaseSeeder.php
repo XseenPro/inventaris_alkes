@@ -76,6 +76,15 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make('123456'),
             ],
+            [
+                'name' => 'Azkal Teknik',
+                'email' => 'kodepresensi@gmail.com',
+                'role' => 'teknik',
+                'jabatan' => 'The Suhu of Teknik',
+                'unit' => 'Operational',
+                'email_verified_at' => Carbon::now(),
+                'password' => Hash::make('123456'),
+            ],
         ];
 
         foreach ($users as $user) {
@@ -112,6 +121,11 @@ class DatabaseSeeder extends Seeder
                 'prefix' => 'A',
                 'kode_jenis' => '01'
             ],
+            [
+                'nama_jenis' => 'Hardware',
+                'prefix' => 'B',
+                'kode_jenis' => '02.4'
+            ],
         ];
 
         foreach ($jenis_perangkats as $jenis) {
@@ -139,5 +153,6 @@ class DatabaseSeeder extends Seeder
         foreach ($kondisis as $kondisi) {
             Kondisi::create($kondisi);
         }
+        $this->call(PerangkatSeeder::class);
     }
 }

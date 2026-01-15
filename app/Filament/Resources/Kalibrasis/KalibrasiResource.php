@@ -24,7 +24,7 @@ class KalibrasiResource extends Resource
 {
   protected static ?string $model = Kalibrasi::class;
 
-  protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+  protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-adjustments-vertical';
 
   protected static ?string $recordTitleAttribute = 'nomor_sertifikat';
   protected static string|UnitEnum|null $navigationGroup = 'Inventaris Alat';

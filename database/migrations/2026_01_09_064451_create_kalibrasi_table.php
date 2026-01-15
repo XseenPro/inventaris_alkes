@@ -19,6 +19,7 @@ return new class extends Migration
       $table->date('tanggal_pelaksanaan')->nullable()->index('tanggal_pelaksanaan');
       $table->date('tanggal_kalibrasi')->nullable()->index('tanggal_kalibrasi');
       $table->date('tanggal_kalibrasi_ulang')->nullable()->index('tanggal_kalibrasi_ulang');
+      $table->timestamp('reminder_h7_sent_at')->nullable()->index();
       $table->string('hasil_kalibrasi')->nullable();
       $table->string('keterangan')->nullable();
       $table->string('sertifikat_kalibrasi')->nullable();

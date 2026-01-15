@@ -27,8 +27,8 @@ class JenisForm
                     ->label('Kode Jenis (mis. 01)')
                     ->default('01')
                     ->required()
-                    ->rule('regex:/^\d{2}$/')
-                    ->helperText('Format: 2 digit, titik, 1 digit. Contoh: 01')
+                    ->rule('regex:/^\d{2}(\.\d{1})?$/')
+                    ->helperText('Format: 2 digit, opsional ".1 digit". Contoh: 01 atau 01.2')
                     ->columnSpan('full'),
             ]);
     }

@@ -160,16 +160,17 @@ class PeminjamanForm
 
           TextInput::make('nama_barang')
             ->label('Nama barang')
-            ->helperText('Terisi otomatis dari perangkat, boleh diubah.'),
+            ->disabled()
+            ->dehydrated(),
 
           TextInput::make('merk')
             ->label('Merek / Tipe')
-            ->helperText('Terisi otomatis dari perangkat.tipe'),
+            ->disabled()
+            ->dehydrated(),
 
           TextInput::make('kondisi_terakhir')
             ->disabled()
-            ->dehydrated()
-            ->helperText('Terisi otomatis dari kondisi perangkat saat ini'),
+            ->dehydrated(),
 
           Placeholder::make('reminder_h3_sent_at')
             ->label('Reminder H-3')

@@ -1,1 +1,0 @@
-<style>.fi-sidebar-header { display: none; }</style>

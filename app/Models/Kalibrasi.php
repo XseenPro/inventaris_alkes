@@ -19,6 +19,7 @@ class Kalibrasi extends Model
     'tanggal_kalibrasi_ulang',
     'hasil_kalibrasi',
     'keterangan',
+    'reminder_h7_sent_at',
     'sertifikat_kalibrasi'
   ];
 
@@ -26,6 +27,7 @@ class Kalibrasi extends Model
     'tanggal_kalibrasi' => 'date',
     'tanggal_kalibrasi_ulang' => 'date',
     'tanggal_pelaksanaan' => 'date',
+    'reminder_h7_sent_at' => 'date',
   ];
 
   public function perangkats(): BelongsTo {

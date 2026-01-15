@@ -18,7 +18,7 @@ class SendPeminjamanH3Reminder extends Command
         $todayStr = Carbon::now('Asia/Jakarta')->toDateString();
 
         $peminjamans = Peminjaman::query()
-            ->whereRaw('DATEDIFF(tanggal_selesai, ?) = 1', [$todayStr])
+            ->whereRaw('DATEDIFF(tanggal_selesai, ?) = -1', [$todayStr])
             ->where('status', 'Dipinjam')
             ->whereNull('reminder_h3_sent_at')
             ->get();

@@ -40,6 +40,7 @@ class UserForm
               return [
                 'super-admin' => 'Super Admin',
                 'admin'       => 'Admin',
+                'teknisi'        => 'Teknisi',
                 'user'        => 'User',
               ];
             }
