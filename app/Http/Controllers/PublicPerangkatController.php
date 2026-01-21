@@ -8,7 +8,7 @@ class PublicPerangkatController extends Controller
 {
     public function show(Perangkat $perangkat)
     {
-        $perangkat->load('riwayatMaintenances', 'lokasi', 'jenis', 'status', 'kondisi');
+        $perangkat->load('riwayatMaintenances', 'lokasi', 'jenis',  'kondisi');
         return view('public.perangkat-detail', compact('perangkat'));
     }
     public function cetakSemuaStiker()

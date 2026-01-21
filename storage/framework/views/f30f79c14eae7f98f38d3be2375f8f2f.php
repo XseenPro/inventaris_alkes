@@ -38,21 +38,6 @@
 
           </span>
         </div>
-
-        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2 text-center shadow-sm min-w-[100px]">
-          <span class="block text-[10px] text-blue-100 uppercase tracking-wider">Status</span>
-          <span class="text-sm font-bold text-white flex items-center justify-center gap-2" style="text-transform: capitalize !important;">
-            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(strtolower($record->status->nama_status ?? '') == 'aktif'): ?>
-            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-            <?php elseif(strtolower($record->status->nama_status ?? '') == 'rusak'): ?>
-            <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
-            <?php else: ?>
-            <span class="w-2 h-2 rounded-full bg-yellow-400" ></span>
-            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-            <?php echo e($record->status->nama_status ?? '-'); ?>
-
-          </span>
-        </div>
       </div>
     </div>
   </div>
@@ -106,14 +91,31 @@
 
         </p>
       </div>
+      <?php
+      $tanggal = $record->tanggal_pembelian
+      ? $record->tanggal_pembelian->translatedFormat('d F Y')
+      : '-';
+      ?>
+
       <div>
-        <p class="text-xs text-gray-500 mb-1">Tahun Pembelian</p>
-        <p class="font-medium text-gray-900 dark:text-gray-200 text-sm"><?php echo e($record->tahun_pembelian ?? '-'); ?></p>
+        <p class="text-xs text-gray-500 mb-1">Tanggal Pembelian</p>
+        <p class="font-medium text-gray-900 dark:text-gray-200 text-sm">
+          <?php echo e($tanggal); ?>
+
+        </p>
       </div>
+
       <div>
         <p class="text-xs text-gray-500 mb-1">Distributor</p>
         <p class="font-medium text-gray-900 dark:text-gray-200 text-sm truncate" title="<?php echo e($record->distributor); ?>">
-          <?php echo e($record->distributor ?? '-'); ?>
+          <?php echo e($record->distributor->nama_distributor ?? '-'); ?>
+
+        </p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 mb-1">Supplier</p>
+        <p class="font-medium text-gray-900 dark:text-gray-200 text-sm truncate" title="<?php echo e($record->supplier); ?>">
+          <?php echo e($record->supplier->nama_supplier ?? '-'); ?>
 
         </p>
       </div>

@@ -19,7 +19,7 @@ class SendPeminjamanH3Reminder extends Command
 
         $peminjamans = Peminjaman::query()
             ->whereRaw('DATEDIFF(tanggal_selesai, ?) = -1', [$todayStr])
-            ->where('status', 'Dipinjam')
+            ->where('kondisi', 'Dipinjam')
             ->whereNull('reminder_h3_sent_at')
             ->get();
 

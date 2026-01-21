@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Perangkat;
 use App\Models\User;
-use App\Models\Status;
+use App\Models\Kondisi;
 use App\Notifications\PerangkatExpiredBatchNotification;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
@@ -16,7 +16,7 @@ use Throwable;
 class UpdateExpiredPerangkat extends Command
 {
     protected $signature   = 'perangkat:update-expired';
-    protected $description = 'Zero harga & set status Expired untuk perangkat yang baru expired lalu kirim satu email ringkasan (sekali sehari).';
+    protected $description = 'Zero harga & set kondisi Expired untuk perangkat yang baru expired lalu kirim satu email ringkasan (sekali sehari).';
 
     public function handle(): int
     {
@@ -32,7 +32,7 @@ class UpdateExpiredPerangkat extends Command
             $this->warn('Tidak ada user role admin / super admin ditemukan.');
         }
 
-        $expiredStatusId = Status::firstOrCreate(['nama_status' => 'Expired'])->id;
+        $expiredKondisiId = Kondisi::firstOrCreate(['nama_kondisi' => 'Expired'])->id;
 
         $eligible = collect();
         $eligibleIds = [];
@@ -70,12 +70,12 @@ class UpdateExpiredPerangkat extends Command
 
         $this->info('Perangkat expired baru: '.count($eligibleIds));
 
-        DB::transaction(function () use ($eligibleIds, $expiredStatusId) {
-            Perangkat::whereIn('id', $eligibleIds)->chunkById(500, function ($rows) use ($expiredStatusId) {
+        DB::transaction(function () use ($eligibleIds, $expiredKondisiId) {
+            Perangkat::whereIn('id', $eligibleIds)->chunkById(500, function ($rows) use ($expiredKondisiId) {
                 foreach ($rows as $p) {
                     $p->forceFill([
                         'harga'     => 0,
-                        'status_id' => $expiredStatusId,
+                        'kondisi_id' => $expiredKondisiId,
                     ])->save();
                 }
             });

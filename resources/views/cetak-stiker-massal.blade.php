@@ -2,159 +2,299 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Cetak Semua Stiker Inventaris</title>
-    <link rel="shortcut icon" href="{{ asset('images/RSU.png') }}" type="image/x-icon">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 5mm;
-            background: #fff;
-        }
+  <meta charset="UTF-8">
+  <title>Cetak Semua Stiker Inventaris</title>
+  <link rel="shortcut icon" href="{{ asset('images/RSU.png') }}" type="image/x-icon">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 10px;
+      background: #f4f4f4;
+    }
 
-        .page {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1mm;
-            page-break-after: always;
-        }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-        .sticker {
-            border: 1px solid #000;
-            padding: 1mm;
-            height: 30mm;
-            width: 95mm;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+    .sticker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
 
-        .sticker-header {
-            text-align: center;
-            font-weight: bold;
-            font-size: 11pt;
-            border-bottom: 1px solid #000;
-            margin-bottom: 3mm;
-        }
+    .sticker {
+      border: 2px solid #000;
+      padding: 3mm;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      aspect-ratio: 10 / 3;
+    }
 
-        .sticker-body {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .sticker-header {
+      text-align: center;
+      font-weight: bold;
+      font-size: 10pt;
+      border-bottom: 2px solid #000;
+      padding-bottom: 2px;
+      margin-bottom: 3px;
+    }
 
-        .info-wrapper {
-            display: flex;
-            align-items: center;
-        }
+    .sticker-body {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4mm;
+      flex: 1;
+    }
 
-        .stiker-logo {
-            margin-right: 6px;
-        }
+    .left-section {
+      display: flex;
+      align-items: center;
+      gap: 3mm;
+      flex: 1;
+      min-width: 0;
+    }
 
-        .stiker-logo img {
-            width: 45px;
-            height: auto;
-        }
+    .stiker-logo {
+      flex-shrink: 0;
+    }
 
-        .info-section {
-            font-size: 9pt;
-            line-height: 1.2;
-        }
+    .stiker-logo img {
+      width: 12mm;
+      height: auto;
+      display: block;
+    }
 
-        .info-section p {
-            margin: 1px 0;
-        }
+    .info-section {
+      font-size: 8pt;
+      line-height: 1.3;
+      flex: 1;
+      min-width: 0;
+    }
 
-        .barcode-section {
-            text-align: center;
-            flex-shrink: 0;
-            margin-left: 8px;
-        }
+    .info-section p {
+      margin: 0.5mm 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-        .barcode-number {
-            font-size: 8pt;
-            margin-top: 2px;
-            letter-spacing: 0.5px;
-        }
+    .info-section strong {
+      font-weight: bold;
+    }
 
-        .no-print {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+    .barcode-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-left: 1px solid #ccc;
+      padding-left: 3mm;
+    }
 
-        .print-button {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+    .barcode-section svg,
+    .barcode-section img {
+      width: 22mm;
+      height: 22mm;
+      display: block;
+    }
 
-        .print-button:hover {
-            background: #0056b3;
-        }
+    .no-print {
+      text-align: center;
+      padding: 15px;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-        @media print {
-            .no-print {
-                display: none;
-            }
+    .print-button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      margin: 0 5px;
+    }
 
-            @page {
-                size: A4 portrait;
-                margin: 5mm;
-            }
+    .print-button:hover {
+      background: #0056b3;
+    }
 
-            body {
-                background: #fff;
-            }
-        }
-    </style>
+    .print-button.secondary {
+      background: #28a745;
+    }
+
+    .print-button.secondary:hover {
+      background: #218838;
+    }
+
+    .info-box {
+      background: #e7f3ff;
+      border: 1px solid #0066cc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #004085;
+    }
+
+    @media print {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .container {
+        max-width: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .sticker-grid {
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+
+      @page {
+        size: 100mm 30mm;
+        margin: 0;
+      }
+
+      .sticker {
+        width: 100mm;
+        height: 30mm;
+        max-height: 30mm;
+        border: 2px solid #000;
+        padding: 1.5mm;
+        margin: 0;
+        box-sizing: border-box;
+        display: block;
+        page-break-after: always;
+        page-break-inside: avoid;
+        page-break-before: always;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .sticker:first-child {
+        page-break-before: auto;
+        margin-top: 0;
+      }
+
+      .sticker:last-child {
+        page-break-after: auto;
+      }
+
+      .sticker-header {
+        font-size: 7.5pt;
+        font-weight: bold;
+        text-align: center;
+        padding-bottom: 0.5mm;
+        margin-bottom: 1mm;
+        border-bottom: 2px solid #000;
+      }
+
+      .sticker-body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2mm;
+        height: calc(30mm - 10mm);
+      }
+
+      .info-section {
+        font-size: 6.5pt;
+        line-height: 1.25;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .barcode-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-left: 1px solid #999;
+        padding-left: 1.5mm;
+        padding-right: 0.5mm;
+        margin-right: 0;
+      }
+
+      .barcode-section svg,
+      .barcode-section img {
+        width: 17mm !important;
+        height: 17mm !important;
+        display: block;
+        max-width: 17mm !important;
+        max-height: 17mm !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="container">
     <div class="no-print">
-        <button onclick="window.print()" class="print-button">🖨️ Cetak Semua Stiker</button>
+      <button onclick="window.print()" class="print-button">
+        🖨️ Cetak ke Printer Roll Stiker
+      </button>
+      <button onclick="window.location.reload()" class="print-button secondary">
+        🔄 Refresh Halaman
+      </button>
+
+      <div class="info-box">
+        <strong>📌 Panduan Cetak:</strong><br>
+        • Pastikan printer roll stiker sudah terpasang dengan kertas ukuran 10cm x 3cm<br>
+        • Setiap stiker akan dicetak satu per satu secara berurutan<br>
+        • Total stiker yang akan dicetak: <strong>{{ $records->count() }}</strong><br>
+        • Pastikan setting printer: Paper Size = 100mm x 30mm, Margin = 0mm
+      </div>
     </div>
 
-    @php
-    $chunks = $records->chunk(18);
-    @endphp
-
-    @foreach ($chunks as $page)
-    <div class="page">
-        @foreach ($page as $record)
-        <div class="sticker">
-            <div class="sticker-header">LABEL INVENTARIS BARANG</div>
-            <div class="sticker-body">
-                <div class="info-wrapper">
-                    <div class="stiker-logo">
-                        <img src="{{ asset('images/RSU.png') }}" alt="logo">
-                    </div>
-
-                    <div class="info-section">
-                        <p><strong>Nama Barang:</strong> {{ $record->nama_perangkat }}</p>
-                        <p><strong>Kode Barang:</strong> {{ $record->nomor_inventaris }}</p>
-                        <p><strong>Lokasi:</strong> {{ $record->lokasi->nama_lokasi ?? 'N/A' }}</p>
-                        <p><strong>Tahun:</strong> {{ $record->tahun_pengadaan }}</p>
-                    </div>
-                </div>
-
-                <div class="barcode-section">
-                    @php
-                    $url = route('public.perangkat.show', ['perangkat' => $record->id]);
-                    echo \SimpleSoftwareIO\QrCode\Facades\QrCode::size(60)->generate($url);
-                    @endphp
-                </div>
+    <div class="sticker-grid">
+      @foreach ($records as $record)
+      <div class="sticker">
+        <div class="sticker-header">LABEL INVENTARIS BARANG</div>
+        <div class="sticker-body">
+          <div class="left-section">
+            <div class="stiker-logo">
+              <img src="{{ asset('img/RSU.png') }}" alt="logo">
             </div>
+
+            <div class="info-section">
+              <p><strong>Nama:</strong> {{ $record->nama_perangkat }}</p>
+              <p><strong>Kode:</strong> {{ $record->nomor_inventaris }}</p>
+              <p><strong>Lokasi:</strong> {{ $record->lokasi->nama_lokasi ?? 'N/A' }}</p>
+            </div>
+          </div>
+
+          <div class="barcode-section">
+            @php
+            $url = route('public.perangkat.show', ['perangkat' => $record->id]);
+            echo \SimpleSoftwareIO\QrCode\Facades\QrCode::size(70)->generate($url);
+            @endphp
+          </div>
         </div>
-        @endforeach
+      </div>
+      @endforeach
     </div>
-    @endforeach
+  </div>
 </body>
 
 </html>

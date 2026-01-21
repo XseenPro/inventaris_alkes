@@ -17,21 +17,20 @@ class Perangkat extends Model
     'kategori_id',
     'jenis_id',
     'kondisi_id',
-    'status_id',
-    'bulan',
+    // 'bulan',
     'tanggal_entry',
     'nomor_inventaris',
     'nama_perangkat',
     'merek_alat',
-    'jumlah_alat',
+    // 'jumlah_alat',
     'tipe',
     'nomor_seri',
-    'distributor',
-    'supplier',
+    'distributor_id',
+    'supplier_id',
     'no_akl_akd',
     'produk',
     'tanggal_pembelian',
-    'tahun_pembelian',
+    // 'tahun_pembelian',
     'sumber_pendanaan',
     'harga_beli_ppn',
     'harga_beli_non_ppn',
@@ -61,9 +60,13 @@ class Perangkat extends Model
   {
     return $this->belongsTo(Kondisi::class);
   }
-  public function status(): BelongsTo
+  public function distributor(): BelongsTo
   {
-    return $this->belongsTo(Status::class);
+    return $this->belongsTo(Distributor::class);
+  }
+  public function supplier():BelongsTo
+  {
+    return $this->belongsTo(Supplier::class);
   }
   public function riwayatMaintenances(): HasMany
     {
@@ -75,11 +78,11 @@ class Perangkat extends Model
     }
     public function scopeAktif(Builder $q): Builder
     {
-        return $q->whereHas('status', fn($qq) => $qq->where('nama_status', 'Aktif'));
+        return $q->whereHas('kondisi', fn($qq) => $qq->where('nama_kondisi', 'Aktif'));
     }
     public function scopePerbaikan(Builder $q): Builder
     {
-        return $q->whereHas('status', fn($qq) => $qq->where('nama_status', 'Perbaikan'));
+        return $q->whereHas('kondisi', fn($qq) => $qq->where('nama_kondisi', 'Perbaikan'));
     }
     public function peminjamans()
     {

@@ -32,11 +32,11 @@ class RecentMaintenances extends BaseWidget
                     ->dateTime('d M Y')
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('perangkat.nomor_inventaris')
+                Tables\Columns\TextColumn::make('perangkats.nomor_inventaris')
                     ->label('No. Inventaris')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('perangkat.nama_perangkat')
+                Tables\Columns\TextColumn::make('perangkats.nama_perangkat')
                     ->label('Perangkat')
                     ->searchable()
                     ->limit(24),
@@ -65,7 +65,7 @@ class RecentMaintenances extends BaseWidget
     {
         return RiwayatMaintenance::query()
             ->select(['id', 'perangkat_id', 'deskripsi', 'lokasi_id', 'status_akhir', 'created_at'])
-            ->with(['perangkat:id,nomor_inventaris,nama_perangkat', 'lokasi:id,nama_lokasi'])
+            ->with(['perangkats:id,nomor_inventaris,nama_perangkat', 'lokasi:id,nama_lokasi'])
             ->latest()
             ->limit(10);
     }

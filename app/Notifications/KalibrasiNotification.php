@@ -2,16 +2,18 @@
 
 namespace App\Notifications;
 
-use App\Models\kalibrasi;
+use App\Models\Kalibrasi;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Collection;
 
 class KalibrasiNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(public Kalibrasi $p) {}
+    /** @var \Illuminate\Support\Collection<int,Kalibrasi> */
+    public function __construct(public Collection $items) {}
 
     public function via($notifiable): array
     {
@@ -20,18 +22,21 @@ class KalibrasiNotification extends Notification
 
     public function toMail($notifiable): MailMessage
     {
-        $perangkatInv = $this->p->perangkats?->nomor_inventaris?? 'None';
-        $perangkatSeri = $this->p->perangkats?->nomor_seri?? 'None';
-        $perangkatName = $this->p->perangkats?->nama_perangkat?? 'None';
-        $lokasiName = $this->p->lokasi?->nama_lokasi?? 'Pengguna';
-
-        return (new MailMessage)
-            ->subject('📅 Pengingat Belum Kalibrasi: ' . $perangkatName)
+        $mail = (new MailMessage)
+            ->subject('📅 Daftar Perangkat Belum Kalibrasi')
             ->greeting('Hallo Petugas Kalibrasi')
-            ->line('No Inventaris Perangkat' .$perangkatInv)
-            ->line('Nama Perangkat' . $perangkatName)
-            ->line('No Seri Perangkat' . $perangkatSeri)
-            ->line('Lokasi' . $lokasiName)
-            ->line("Tanggal Kalibrasi Terakhir {$this->p->tanggal_kalibrasi}");
+            ->line('Berikut daftar perangkat yang perlu segera dikalibrasi:');
+
+        foreach ($this->items as $p) {
+            $perangkatInv  = $p->perangkats?->nomor_inventaris ?? 'None';
+            $perangkatSeri = $p->perangkats?->nomor_seri ?? 'None';
+            $perangkatName = $p->perangkats?->nama_perangkat ?? 'None';
+            $lokasiName    = $p->lokasi?->nama_lokasi ?? 'Tidak diketahui';
+
+            $mail->line("- {$perangkatInv} | {$perangkatName} | No Seri: {$perangkatSeri} | Lokasi: {$lokasiName} | Tgl kalibrasi terakhir: {$p->tanggal_kalibrasi}");
+        }
+
+        return $mail->line('Silakan dapat ditindaklanjuti.');
     }
 }
+

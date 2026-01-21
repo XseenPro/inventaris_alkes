@@ -17,26 +17,25 @@ return new class extends Migration
             $table->foreignId('kategori_id')->nullable()->constrained('kategoris')->cascadeOnUpdate()->nullOnDelete();
             $table->foreignId('jenis_id')->nullable()->constrained('jenis_perangkats')->cascadeOnUpdate()->nullOnDelete();
             $table->foreignId('kondisi_id')->nullable()->constrained('kondisis')->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('status_id')->nullable()->constrained('statuses')->cascadeOnUpdate()->nullOnDelete();
 
-            $table->string('bulan', 20)->nullable();
+            // $table->string('bulan', 20)->nullable();
             $table->date('tanggal_entry')->nullable();
             $table->string('nomor_inventaris')->nullable();
 
             // identitas alat
             $table->string('nama_perangkat');
             $table->string('merek_alat')->nullable();
-            $table->unsignedInteger('jumlah_alat')->default(1);
+            // $table->unsignedInteger('jumlah_alat')->default(1);
             $table->string('tipe')->nullable();
             $table->string('nomor_seri')->nullable();
 
-            $table->string('distributor')->nullable();
-            $table->string('supplier')->nullable();
+            $table->foreignId('distributor_id')->nullable()->constrained('distributor')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('supplier_id')->nullable()->constrained('supplier')->cascadeOnUpdate()->nullOnDelete();
             $table->string('no_akl_akd')->nullable();
             $table->string('produk')->nullable();
 
             $table->date('tanggal_pembelian')->nullable();
-            $table->unsignedSmallInteger('tahun_pembelian')->nullable();
+            // $table->unsignedSmallInteger('tahun_pembelian')->nullable();
             $table->string('sumber_pendanaan')->nullable();
 
             $table->unsignedBigInteger('harga_beli_ppn')->nullable();

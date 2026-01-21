@@ -51,11 +51,11 @@ class UserResource extends Resource
         $query->where('id', '!=', $auth->id);
 
         if ($auth->isSuperAdmin()) {
-            return $query->whereIn('role', ['admin', 'user']);
+            return $query->whereIn('role', ['admin', 'user', 'Teknisi']);
         }
 
         if ($auth->isAdmin()) {
-            return $query->where('role', 'user');
+            return $query->where('role', 'user', 'teknisi');
         }
 
         return $query->whereRaw('1 = 0');

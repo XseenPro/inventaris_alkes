@@ -26,7 +26,7 @@ class PerangkatExpiredBatchNotification extends Notification
         $mail = (new MailMessage)
             ->subject("Ringkasan Perangkat Expired — {$today}")
             ->greeting('Halo,')
-            ->line('Berikut daftar perangkat yang baru melewati masa pakai. Harga sudah otomatis diatur menjadi Rp 0 dan status diubah ke "Expired".')
+            ->line('Berikut daftar perangkat yang baru melewati masa pakai. Harga sudah otomatis diatur menjadi Rp 0 dan Kondisi diubah ke "Expired".')
             ->line('');
 
         foreach ($this->items as $p) {

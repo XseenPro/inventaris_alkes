@@ -63,36 +63,36 @@ class PenarikanAlatResource extends Resource
   public static function canAccess(): bool
     {
          $user = Auth::user();
-        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+        return $user instanceof AppUser && $user->canDo('perangkat.penarikan.manage');
     }
     public static function shouldRegisterNavigation(): bool
     {
         $user = Auth::user();
-        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+        return $user instanceof AppUser && $user->canDo('perangkat.penarikan.manage');
     }
     public static function canViewAny(): bool
     {
         $user = Auth::user();
-        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+        return $user instanceof AppUser && $user->canDo('perangkat.penarikan.manage');
     }
     public static function canCreate(): bool
     {
         $user = Auth::user();
-        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+        return $user instanceof AppUser && $user->canDo('perangkat.penarikan.manage');
     }
     public static function canEdit(Model $record): bool
     {
         $user = Auth::user();
-        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+        return $user instanceof AppUser && $user->canDo('perangkat.penarikan.manage');
     }
     public static function canDelete(Model $record): bool
     {
         $user = Auth::user();
-        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+        return $user instanceof AppUser && $user->canDo('perangkat.penarikan.manage');
     }
     public static function canDeleteAny(): bool
     {
         $user = Auth::user();
-        return $user instanceof AppUser && $user->canDo('perangkat.status.manage');
+        return $user instanceof AppUser && $user->canDo('perangkat.penarikan.manage');
     }
 }

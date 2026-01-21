@@ -34,20 +34,6 @@
             {{ $record->kondisi->nama_kondisi ?? '-' }}
           </span>
         </div>
-
-        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2 text-center shadow-sm min-w-[100px]">
-          <span class="block text-[10px] text-blue-100 uppercase tracking-wider">Status</span>
-          <span class="text-sm font-bold text-white flex items-center justify-center gap-2" style="text-transform: capitalize !important;">
-            @if(strtolower($record->status->nama_status ?? '') == 'aktif')
-            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-            @elseif(strtolower($record->status->nama_status ?? '') == 'rusak')
-            <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
-            @else
-            <span class="w-2 h-2 rounded-full bg-yellow-400" ></span>
-            @endif
-            {{ $record->status->nama_status ?? '-' }}
-          </span>
-        </div>
       </div>
     </div>
   </div>
@@ -98,14 +84,29 @@
           {{ $record->nomor_seri ?? '-' }}
         </p>
       </div>
+      @php
+      $tanggal = $record->tanggal_pembelian
+      ? $record->tanggal_pembelian->translatedFormat('d F Y')
+      : '-';
+      @endphp
+
       <div>
-        <p class="text-xs text-gray-500 mb-1">Tahun Pembelian</p>
-        <p class="font-medium text-gray-900 dark:text-gray-200 text-sm">{{ $record->tahun_pembelian ?? '-' }}</p>
+        <p class="text-xs text-gray-500 mb-1">Tanggal Pembelian</p>
+        <p class="font-medium text-gray-900 dark:text-gray-200 text-sm">
+          {{ $tanggal }}
+        </p>
       </div>
+
       <div>
         <p class="text-xs text-gray-500 mb-1">Distributor</p>
         <p class="font-medium text-gray-900 dark:text-gray-200 text-sm truncate" title="{{ $record->distributor }}">
-          {{ $record->distributor ?? '-' }}
+          {{ $record->distributor->nama_distributor ?? '-' }}
+        </p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 mb-1">Supplier</p>
+        <p class="font-medium text-gray-900 dark:text-gray-200 text-sm truncate" title="{{ $record->supplier }}">
+          {{ $record->supplier->nama_supplier ?? '-' }}
         </p>
       </div>
       <div class="col-span-2 md:col-span-2">

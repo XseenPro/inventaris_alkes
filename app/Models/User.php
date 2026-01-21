@@ -94,7 +94,6 @@ class User extends Authenticatable
         'perangkat.import',
         'perangkat.mutasi',
         'perangkat.jenis.manage',
-        'perangkat.status.manage',
         'perangkat.kondisi.manage',
         'perangkat.lokasi.manage',
         'perangkat.kategori.manage',

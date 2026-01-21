@@ -24,9 +24,9 @@ class PerangkatStatsOverview extends BaseWidget
     {
         return Cache::remember('stats.perangkat', 300, function () {
             $totalPerangkat   = Perangkat::count();
-            $aktif            = Perangkat::whereHas('status', fn($q) => $q->where('nama_status', 'Aktif'))->count();
-            $rusak            = Perangkat::whereHas('status', fn($q) => $q->where('nama_status', 'Rusak'))->count();
-            $tidakDigunakan   = Perangkat::whereHas('status', fn($q) => $q->where('nama_status', 'Sudah tidak digunakan'))->count();
+            $aktif            = Perangkat::whereHas('kondisi', fn($q) => $q->where('nama_kondisi', 'Aktif'))->count();
+            $rusak            = Perangkat::whereHas('kondisi', fn($q) => $q->where('nama_kondisi', 'Rusak'))->count();
+            $tidakDigunakan   = Perangkat::whereHas('kondisi', fn($q) => $q->where('nama_kondisi', 'Sudah tidak digunakan'))->count();
 
             return [
                 Stat::make('Total Perangkat', number_format($totalPerangkat))
@@ -34,17 +34,17 @@ class PerangkatStatsOverview extends BaseWidget
                     ->icon('heroicon-o-computer-desktop'),
 
                 Stat::make('Perangkat Aktif', number_format($aktif))
-                    ->description('Status = Aktif')
+                    ->description('Kondisi = Aktif')
                     ->icon('heroicon-o-check-circle')
                     ->color('success'),
 
                 Stat::make('Perangkat Rusak', number_format($rusak))
-                    ->description('Status = Rusak')
+                    ->description('Kondisi = Rusak')
                     ->icon('heroicon-o-wrench-screwdriver')
                     ->color('warning'),
 
                 Stat::make('Tidak Digunakan', number_format($tidakDigunakan))
-                    ->description('Status = Sudah tidak digunakan')
+                    ->description('Kondisi = Sudah tidak digunakan')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger'),
             ];

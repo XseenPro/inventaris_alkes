@@ -23,20 +23,24 @@ class SendPeminjamanH7Reminder extends Command
             ->whereNull('reminder_h7_sent_at')
             ->get();
 
-        $admins = User::whereIn('role', ['admin', 'super-admin'])->get();
-        $sent = 0;
-        foreach ($kalibrasiList as $k) {
-            if ($admins->isEmpty()) {
-                continue;
-            }
-
-            Notification::send($admins, new KalibrasiNotification($k));
-
-            $k->forceFill(['reminder_h7_sent_at' => now('Asia/Jakarta')])->save();
-            $sent++;
+        if ($kalibrasiList->isEmpty()) {
+            $this->info('Tidak ada perangkat yang perlu dikalibrasi.');
+            return self::SUCCESS;
         }
 
-        $this->info("Pengingat H-7 terkirim: {$sent}");
+        $admins = User::whereIn('role', ['admin', 'super-admin'])->get();
+
+        if ($admins->isEmpty()) {
+            $this->warn('Tidak ada user admin/super-admin untuk dikirimi email.');
+            return self::SUCCESS;
+        }
+
+        Notification::send($admins, new KalibrasiNotification($kalibrasiList));
+
+        Kalibrasi::whereKey($kalibrasiList->pluck('id'))
+            ->update(['reminder_h7_sent_at' => now('Asia/Jakarta')]);
+
+        $this->info("Pengingat H-7 terkirim untuk {$kalibrasiList->count()} perangkat.");
         return self::SUCCESS;
     }
 }

@@ -15,7 +15,7 @@ class CreateAlatKesehatan extends CreateRecord
   {
     $jenisId = $data['jenis_id'] ?? null;
     $kategoriId = $data['kategori_id'] ?? null;
-    $tahun = $data['tahun_pembelian'] ?? date('Y');
+    $tahun = $data['tanggal_pembelian'] ?? date('Y');
 
     if (!$jenisId || !$kategoriId) {
       Notification::make()

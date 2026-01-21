@@ -84,7 +84,6 @@ class UserForm
               'perangkat.import' => 'Import perangkat',
               'perangkat.mutasi' => 'Kelola mutasi perangkat',
               'perangkat.jenis.manage'    => 'Kelola master jenis',
-              'perangkat.status.manage'   => 'Kelola master status',
               'perangkat.kondisi.manage'  => 'Kelola master kondisi',
               'perangkat.lokasi.manage'   => 'Kelola master lokasi',
               'perangkat.kategori.manage' => 'Kelola master kategori',

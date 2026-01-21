@@ -4,7 +4,7 @@ namespace App\Filament\Resources\PenarikanAlats\Pages;
 
 use App\Filament\Resources\PenarikanAlats\PenarikanAlatResource;
 use Filament\Resources\Pages\CreateRecord;
-use App\Models\Status;
+use App\Models\Kondisi;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -26,35 +26,35 @@ class CreatePenarikanAlat extends CreateRecord
         if (!$perangkat) return;
 
         $alasan = $record->alasan_penarikan ?? [];
-        $newStatusId = null;
+        $newKondisiId = null;
 
         $alasanLower = array_map('strtolower', $alasan);
         
         if (in_array('tidak layak pakai', $alasanLower) || in_array('melebihi masa pakai', $alasanLower)) {
             
-            $status = Status::firstOrCreate(
-                ['nama_status' => 'Sudah tidak digunakan'] 
+            $kondisi = Kondisi::firstOrCreate(
+                ['nama_kondisi' => 'Sudah tidak digunakan'] 
             );
             
-            $newStatusId = $status->id;
+            $newKondisiId = $kondisi->id;
         } 
         elseif (in_array('rusak', $alasanLower)) {
             
-            $status = Status::firstOrCreate(
-                ['nama_status' => 'Rusak']
+            $kondisi = Kondisi::firstOrCreate(
+                ['nama_kondisi' => 'Rusak']
             );
             
-            $newStatusId = $status->id;
+            $newKondisiId = $kondisi->id;
         }
 
-        if ($newStatusId) {
-            $perangkat->status_id = $newStatusId;
+        if ($newKondisiId) {
+            $perangkat->kondisi_id = $newKondisiId;
             $perangkat->save();
 
-            // Opsional: Kirim notifikasi agar user tahu sistem membuat status baru/update
+            // Opsional: Kirim notifikasi agar user tahu sistem membuat kondisi baru/update
             // Notification::make()
-            //     ->title('Status Perangkat Diupdate')
-            //     ->body("Perangkat kini berstatus: " . $status->nama_status)
+            //     ->title('Kondisi Perangkat Diupdate')
+            //     ->body("Perangkat kini berkondisi: " . $kondisi->nama_kondisi)
             //     ->success()
             //     ->send();
         }
