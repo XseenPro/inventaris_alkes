@@ -112,26 +112,21 @@ class PerangkatAllExport implements
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
 
-        // Geser seluruh data 1 baris ke bawah supaya baris 1 bisa dipakai judul
         $sheet->insertNewRowBefore(1, 1);
 
-        // ==== JUDUL BESAR DI BARIS 1 ====
         $title = 'DATA REKAPAN SARANA - PRASARANA DAN ALAT KESEHATAN';
         $titleCell = 'A1';
         $titleRange = 'A1:' . $highestColumn . '1';
 
-        // Merge A1 sampai kolom terakhir baris 1
         $sheet->mergeCells($titleRange);
 
-        // Set teks judul
         $sheet->setCellValue($titleCell, $title);
 
-        // Styling judul (kuning, bold, center)
         $titleStyle = $sheet->getStyle($titleRange);
         $titleStyle->getFill()
           ->setFillType(Fill::FILL_SOLID)
           ->getStartColor()
-          ->setARGB('FFFFFF00'); // kuning
+          ->setARGB('FFFFFF00');
         $titleStyle->getFont()
           ->setBold(true)
           ->setSize(13);
@@ -140,19 +135,18 @@ class PerangkatAllExport implements
           ->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getRowDimension('1')->setRowHeight(22);
 
-        // ==== HEADER TABEL (sekarang di baris 2) ====
         $headerRange = 'A2:' . $highestColumn . '2';
         $headerStyle = $sheet->getStyle($headerRange);
 
         $headerStyle->getFill()
           ->setFillType(Fill::FILL_SOLID)
           ->getStartColor()
-          ->setARGB('FF1F4E78');   // biru tua
+          ->setARGB('FF1F4E78');
         $headerStyle->getFont()
           ->setBold(true)
           ->setSize(11)
           ->getColor()
-          ->setARGB('FFFFFFFF');   // putih
+          ->setARGB('FFFFFFFF');
         $headerStyle->getBorders()->getAllBorders()
           ->setBorderStyle(Border::BORDER_THIN)
           ->getColor()
@@ -163,12 +157,11 @@ class PerangkatAllExport implements
           ->setWrapText(true);
         $sheet->getRowDimension('2')->setRowHeight(25);
 
-        // ==== DATA ROWS (mulai baris 3 karena baris 1: judul, baris 2: header) ====
         $newHighestRow = $sheet->getHighestRow();
         $lightGrayFill = 'FFF2F2F2';
 
         for ($row = 3; $row <= $newHighestRow; $row++) {
-          if ($row % 2 == 1) { // baris ganjil di data (karena mulai 3)
+          if ($row % 2 == 1) {
             $sheet->getStyle('A' . $row . ':' . $highestColumn . $row)
               ->getFill()
               ->setFillType(Fill::FILL_SOLID)
@@ -183,7 +176,6 @@ class PerangkatAllExport implements
             ->setARGB('FFD3D3D3');
         }
 
-        // Alignment kolom (sesuaikan offset baris baru)
         $sheet->getStyle('A3:A' . $newHighestRow)->getAlignment()
           ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
@@ -195,7 +187,6 @@ class PerangkatAllExport implements
         $sheet->getStyle('N3:N' . $newHighestRow)->getAlignment()
           ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-        // PAGE SETUP, MARGIN, FILTER, FREEZE PANE, PASSWORD
         $sheet->getPageSetup()
           ->setOrientation(PageSetup::ORIENTATION_LANDSCAPE)
           ->setPaperSize(PageSetup::PAPERSIZE_A4)
@@ -208,7 +199,6 @@ class PerangkatAllExport implements
           ->setTop(0.75)
           ->setBottom(0.75);
 
-        // Freeze: baris 1–2 (judul + header) tetap, data mulai baris 3
         $sheet->freezePane('A3');
 
         $sheet->setAutoFilter('A2:' . $highestColumn . '2');

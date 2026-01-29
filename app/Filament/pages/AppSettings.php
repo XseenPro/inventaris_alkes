@@ -29,7 +29,7 @@ class AppSettings extends Page implements HasForms
 
   public function mount(): void
   {
-    $settings = Setting::whereIn('key', ['export_password', 'export_owner_password'])
+    $settings = Setting::whereIn('key', ['export_password', 'export_owner_password', 'sertifikat_link_duration'])
       ->get()
       ->pluck('value', 'key')
       ->all();
@@ -37,6 +37,7 @@ class AppSettings extends Page implements HasForms
     $this->form->fill([
       'export_password' => $settings['export_password'] ?? null,
       'export_owner_password' => $settings['export_owner_password'] ?? null,
+      'sertifikat_link_duration' => $settings['sertifikat_link_duration'] ?? 30,
     ]);
   }
 
@@ -59,6 +60,13 @@ class AppSettings extends Page implements HasForms
               ->password()
               ->revealable()
               ->helperText('Hanya untuk PDF. Kosongkan untuk pakai default sistem.'),
+            Forms\Components\TextInput::make('sertifikat_link_duration')
+              ->label('Durasi Link Sertifikat (Hari)')
+              ->numeric()
+              ->default(30)
+              ->minValue(1)
+              ->maxValue(365)
+              ->helperText('Berapa lama link download sertifikat berlaku (dalam hari).'),
           ]),
       ])
       ->statePath('data');
@@ -70,13 +78,16 @@ class AppSettings extends Page implements HasForms
 
     Setting::updateOrCreate(
       ['key' => 'export_password'],
-      ['value' => $data['export_password'] ?? null]
+      ['value' => $data['export_password'] ?? null],
+      
     );
 
     Setting::updateOrCreate(
       ['key' => 'export_owner_password'],
       ['value' => $data['export_owner_password'] ?? null]
     );
+    Setting::updateOrCreate(['key' => 'sertifikat_link_duration'], ['value' => $data['sertifikat_link_duration'] ?? 30]);
+
 
     Notification::make()
       ->title('Pengaturan berhasil disimpan.')

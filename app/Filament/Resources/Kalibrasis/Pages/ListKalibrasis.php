@@ -5,6 +5,9 @@ namespace App\Filament\Resources\Kalibrasis\Pages;
 use App\Filament\Resources\Kalibrasis\KalibrasiResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Filament\Actions\Action;
 
 class ListKalibrasis extends ListRecords
 {
@@ -14,6 +17,11 @@ class ListKalibrasis extends ListRecords
     {
         return [
             CreateAction::make(),
+            Action::make('export_excel')
+            ->label('Download Excel')
+            ->icon('heroicon-o-document-arrow-down')
+            ->url(route('export.kalibrasi.all.excel'), shouldOpenInNewTab:true)
+            ->color('success')
         ];
     }
 }

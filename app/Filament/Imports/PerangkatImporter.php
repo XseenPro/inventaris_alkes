@@ -4,7 +4,6 @@ namespace App\Filament\Imports;
 
 use App\Models\Perangkat;
 use App\Models\Lokasi;
-use App\Models\Status;
 use App\Models\Kondisi;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -24,6 +23,11 @@ class PerangkatImporter implements
 {
     use Importable;
     use MapsMaster;
+    public function headingRow(): int
+    {
+        // header sebenarnya ada di baris 2
+        return 2;
+    }
 
     private array $seenNomorInventaris = [];
 
@@ -155,38 +159,56 @@ class PerangkatImporter implements
     }
 
     private function persistRow(array $row, string $nomor): void
-    {
-        $lokasi_id  = $this->getOrCreateId($this->lokasiMap,  Lokasi::class,  'nama_lokasi',  $row['lokasi'] ?? null);
-        $status_id  = $this->getOrCreateId($this->statusMap,  Status::class,  'nama_status',  $row['status'] ?? null);
-        $kondisi_id = $this->getOrCreateId($this->kondisiMap, Kondisi::class, 'nama_kondisi', $row['kondisi'] ?? null);
+{
+    $lokasi_id  = $this->getOrCreateId($this->lokasiMap,  Lokasi::class,  'nama_lokasi',  $row['lokasi'] ?? null);
+    $kondisi_id = $this->getOrCreateId($this->kondisiMap, Kondisi::class, 'nama_kondisi', $row['kondisi'] ?? null);
 
-        $harga = !empty($row['harga']) ? (int)preg_replace('/\D+/', '', (string)$row['harga']) : null;
-        $tanggalDistribusi = $this->parseTanggal($row['tanggal_distribusi'] ?? null);
-        $kode = isset($row['kode']) ? (trim((string)$row['kode']) ?: null) : null;
+    // parsing harga dari kolom Excel
+    $hargaNonPpn = !empty($row['harga_beli_non_ppn'])
+        ? (int) preg_replace('/\D+/', '', (string) $row['harga_beli_non_ppn'])
+        : null;
 
-        $tahun       = (int)($row['_tahun'] ?? ($row['tahun_pengadaan'] ?? now()->year));
-        $jenis_id    = (int)($row['_jenis_id'] ?? $this->resolveJenisByExcelName($row['jenis'] ?? 'hardware'));
-        $kategori_id = (int)($row['_kat_id'] ?? optional($this->resolveKategoriByNamaPerangkat($row['nama_perangkat']))->id);
+    $hargaPpn = !empty($row['harga_beli_ppn'])
+        ? (int) preg_replace('/\D+/', '', (string) $row['harga_beli_ppn'])
+        : null;
 
-        Perangkat::create([
-            'nama_perangkat'     => $row['nama_perangkat'],
-            'tipe'               => $row['tipe'] ?? null,
-            'spesifikasi'        => $row['spesifikasi'] ?? null,
-            'deskripsi'          => $row['deskripsi'] ?? null,
-            'perolehan'          => $row['perolehan'] ?? null,
-            'tahun_pengadaan'    => $tahun,
-            'nomor_inventaris'   => $nomor,
-            'harga'              => $harga,
-            'catatan'            => $row['catatan'] ?? null,
-            'mutasi'             => $row['mutasi'] ?? null,
-            'upgrade'            => $row['upgrade'] ?? null,
-            'tanggal_distribusi' => $tanggalDistribusi,
-            'kode'               => $kode,
-            'lokasi_id'          => $lokasi_id,
-            'jenis_id'           => $jenis_id ?: null,
-            'status_id'          => $status_id,
-            'kondisi_id'         => $kondisi_id,
-            'kategori_id'        => $kategori_id ?: null,
-        ]);
-    }
+    $tanggalEntry      = $this->parseTanggal($row['tanggal_entry'] ?? null);
+    $tanggalPembelian  = $this->parseTanggal($row['tanggal_pembelian'] ?? null);
+
+    $tahun        = (int)($row['_tahun'] ?? ($row['tahun_pengadaan'] ?? now()->year));
+    $jenis_id     = (int)($row['_jenis_id'] ?? $this->resolveJenisByExcelName($row['jenis'] ?? 'hardware'));
+    $kategori_id  = (int)($row['_kat_id'] ?? optional($this->resolveKategoriByNamaPerangkat($row['nama_perangkat']))->id);
+
+    Perangkat::create([
+        'lokasi_id'          => $lokasi_id,
+        'kategori_id'        => $kategori_id ?: null,
+        'jenis_id'           => $jenis_id ?: null,
+        'kondisi_id'         => $kondisi_id,
+
+        'tanggal_entry'      => $tanggalEntry,
+        'nomor_inventaris'   => $nomor,
+
+        'nama_perangkat'     => $row['nama_perangkat'],
+        'merek_alat'         => $row['merek_alat'] ?? null,
+        'tipe'               => $row['tipe'] ?? null,
+        'nomor_seri'         => $row['nomor_seri'] ?? null,
+
+        // kalau nanti sudah ada relasi ke tabel distributor/supplier,
+        // bisa diganti getOrCreateId serupa lokasi/kondisi
+        'no_akl_akd'         => $row['no_akl_akd'] ?? null,
+        'produk'             => $row['produk'] ?? null,
+
+        'tanggal_pembelian'  => $tanggalPembelian,
+        'sumber_pendanaan'   => $row['sumber_pendanaan'] ?? null,
+
+        'harga_beli_ppn'     => $hargaPpn,
+        'harga_beli_non_ppn' => $hargaNonPpn,
+
+        'keterangan'         => $row['keterangan'] ?? null,
+
+        // kolom lain di migration yang belum ada di Excel bisa null
+        // 'created_by'         => auth()->id() ?? null,
+    ]);
+}
+
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Filament\Exports\PerangkatResumeExport;
 use App\Filament\Exports\MutasiResumeExport;
 use App\Filament\Exports\PerangkatAllExport;
+use App\Filament\Exports\KalibrasiAllExport;
 use App\Models\Perangkat;
 use App\Models\Mutasi;
 use Illuminate\Support\Facades\DB;
@@ -669,6 +670,19 @@ class ExportController extends Controller
 
         return Excel::download(
             new PerangkatAllExport($password),
+            $filename
+        );
+    }
+    public function exportKalibrasiAllExcel(Request $request)
+    {
+        ini_set('memory_limit', '1024M');
+
+        $filename = 'export_kalibrasi_all_' . now()->format('Ymd_His') . '.xlsx';
+
+        $password = $this->getExportPassword();
+
+        return Excel::download(
+            new KalibrasiAllExport($password),
             $filename
         );
     }

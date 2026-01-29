@@ -48,10 +48,6 @@ class AlatKesehatanForm
                 ->relationship('kondisi', 'nama_kondisi')
                 ->searchable(),
 
-              // TextInput::make('bulan')
-              //   ->maxLength(20)
-              //   ->placeholder('November'),
-
               DatePicker::make('tanggal_entry')
                 ->label('Tanggal Entry'),
 
